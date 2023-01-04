@@ -21,27 +21,27 @@ def cli_entry_point(verbose):
 
 
 @cli_entry_point.command(name='convert')
-@click.option('--repo', required=False, type=click.Path(exists=True,
-                                                        file_okay=False,
-                                                        dir_okay=True,
-                                                        writable=True))
-@click.option('--tracking_uri', required=False, default=None)
+@click.option('--aim-repo', required=False, type=click.Path(exists=True,
+                                                            file_okay=False,
+                                                            dir_okay=True,
+                                                            writable=True))
+@click.option('--mlflow-tracking-uri',  required=False, default=None)
 @click.option('--experiment', '-e', required=False, default=None)
 @click.option('--watch', required=False, is_flag=True, default=False)
-def convert(repo, tracking_uri, experiment, watch):
-    repo_path = clean_repo_path(repo) or Repo.default_repo_path()
+def convert(aim_repo, mlflow_tracking_uri, experiment, watch):
+    repo_path = clean_repo_path(aim_repo) or Repo.default_repo_path()
     repo_inst = Repo.from_path(repo_path)
 
-    tracking_uri = tracking_uri or os.environ.get("MLFLOW_TRACKING_URI")
-    if not tracking_uri:
-        raise ClickException("MLFlow tracking URI must be provided either trough ENV or CLI.")
+    mlflow_tracking_uri = mlflow_tracking_uri or os.environ.get('MLFLOW_TRACKING_URI')
+    if not mlflow_tracking_uri:
+        raise ClickException('MLFlow tracking URI must be provided either through ENV or CLI.')
 
     if watch:
-        watcher = MLFlowWatcher(repo, tracking_uri, experiment)
+        watcher = MLFlowWatcher(aim_repo, mlflow_tracking_uri, experiment)
 
     click.echo('Converting existing MLflow logs.')
-    convert_existing_logs(repo_inst, tracking_uri, experiment)
+    convert_existing_logs(repo_inst, mlflow_tracking_uri, experiment)
 
     if watch:
-        click.echo(f'Starting watcher on {tracking_uri}.')
+        click.echo(f'Starting watcher on {mlflow_tracking_uri}.')
         watcher.start()

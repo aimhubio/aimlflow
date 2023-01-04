@@ -4,6 +4,7 @@ from tempfile import TemporaryDirectory
 import click
 import mlflow
 import json
+from tqdm import tqdm
 
 from aim import Run, Image, Text, Audio
 
@@ -35,6 +36,7 @@ AUDIO_EXTENSIONS = (
 class RunHashCache:
     def __init__(self, repo_path, no_cache=False):
         self._cache_path = os.path.join(repo_path, 'mlflow_logs_cache')
+        self._needs_refresh = False
 
         if no_cache and os.path.exists(self._cache_path):
             os.remove(self._cache_path)
@@ -65,7 +67,7 @@ class RunHashCache:
 def get_mlflow_experiments(client, experiment):
     if experiment is None:
         # process all experiments
-        experiments = client.list_experiments()
+        experiments = client.search_experiments()
     else:
         try:
             ex = client.get_experiment(experiment)
@@ -89,7 +91,6 @@ def get_aim_run(repo_inst, run_id, experiment_id, run_cache):
         )
     else:
         aim_run = Run(
-            run_hash=run_cache[run_id],
             repo=repo_inst,
             system_tracking_interval=None,
             capture_terminal_logs=False,
@@ -199,9 +200,10 @@ def convert_existing_logs(repo_inst, tracking_uri, experiment=None, no_cache=Fal
 
     experiments = get_mlflow_experiments(client, experiment)
     run_cache = RunHashCache(repo_inst.path, no_cache)
-    for ex in experiments:
+    for ex in tqdm(experiments, desc=f'Parsing mlflow experiments in {tracking_uri}', total=len(experiments)):
         runs = client.search_runs(ex.experiment_id)
-        for run in runs:
+
+        for run in tqdm(runs, desc=f'Parsing mlflow runs for experiment `{ex.name}`', total=len(runs)):
             run_id = run.info.run_id
             # get corresponding `aim.Run` object for mlflow run
             aim_run = get_aim_run(repo_inst, run_id, ex.experiment_id, run_cache)

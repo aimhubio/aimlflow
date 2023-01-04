@@ -17,7 +17,7 @@ NAME = 'aimlflow'
 DESCRIPTION = 'Aim-MLflow integration'
 LONG_DESCRIPTION = DESCRIPTION
 VERSION = __version__
-REQUIRES_PYTHON = '>=3.6.0'
+REQUIRES_PYTHON = '>=3.7.0'
 
 # Get packages
 packages = find_packages(exclude=('tests', 'examples'))
@@ -75,10 +75,9 @@ setup(
     install_requires=REQUIRED,
     packages=packages,
     classifiers=[
-        'License :: OSI Approved :: MIT License',
+        'License :: OSI Approved :: Apache License 2.0',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
-        'Programming Language :: Python :: 3.6',
         'Programming Language :: Python :: 3.7',
         'Programming Language :: Python :: 3.8',
         'Programming Language :: Python :: 3.9',
