@@ -1,9 +1,10 @@
-import os.path
-from tempfile import TemporaryDirectory
-
 import click
 import mlflow
 import json
+import time
+import os.path
+
+from tempfile import TemporaryDirectory
 from tqdm import tqdm
 
 from aim import Run, Image, Text, Audio
@@ -217,3 +218,11 @@ def convert_existing_logs(repo_inst, tracking_uri, experiment=None, no_cache=Fal
             collect_artifacts(aim_run, run, client)
 
     run_cache.refresh()
+
+
+def _wait_forever(watcher):
+    try:
+        while True:
+            time.sleep(24 * 60 * 60)  # sleep for a day
+    except KeyboardInterrupt:
+        watcher.stop()

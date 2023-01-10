@@ -37,7 +37,7 @@ def convert(aim_repo, mlflow_tracking_uri, experiment, watch):
         raise ClickException('MLFlow tracking URI must be provided either through ENV or CLI.')
 
     if watch:
-        watcher = MLFlowWatcher(aim_repo, mlflow_tracking_uri, experiment)
+        watcher = MLFlowWatcher(repo_inst, mlflow_tracking_uri, experiment)
 
     click.echo('Converting existing MLflow logs.')
     convert_existing_logs(repo_inst, mlflow_tracking_uri, experiment)
@@ -45,3 +45,5 @@ def convert(aim_repo, mlflow_tracking_uri, experiment, watch):
     if watch:
         click.echo(f'Starting watcher on {mlflow_tracking_uri}.')
         watcher.start()
+        from aimlflow.utils import _wait_forever
+        _wait_forever(watcher)

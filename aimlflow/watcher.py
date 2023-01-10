@@ -59,7 +59,8 @@ class MLFlowWatcher:
         self._th_collector.join()
 
     def _get_current_active_mlflow_runs(self):
-        experiment_ids = [ex.id for ex in self._experiments]
+        experiment_ids = [ex.experiment_id for ex in self._experiments]
+
         active_runs = self._client.search_runs(
             experiment_ids=experiment_ids,
             run_view_type=mlflow.entities.ViewType.ACTIVE_ONLY
@@ -125,5 +126,8 @@ class MLFlowWatcher:
                 break
 
             time.sleep(1)
+            watch_interval_counter += 1
+
             if watch_interval_counter > self._watch_interval:
                 self._process_runs()
+                watch_interval_counter = 0
