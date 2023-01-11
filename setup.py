@@ -13,7 +13,7 @@ with open(version_file) as vf:
 here = os.path.abspath(os.path.dirname(__file__))
 
 # Package meta-data
-NAME = 'aimlflow'
+NAME = 'aim-mlflow'
 DESCRIPTION = 'Aim-MLflow integration'
 LONG_DESCRIPTION = DESCRIPTION
 VERSION = __version__
@@ -75,7 +75,7 @@ setup(
     install_requires=REQUIRED,
     packages=packages,
     classifiers=[
-        'License :: OSI Approved :: Apache License 2.0',
+        'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
         'Programming Language :: Python :: 3',
         'Programming Language :: Python :: 3.7',
