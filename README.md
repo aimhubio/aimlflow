@@ -62,7 +62,6 @@ aim up --repo={aim_repo_path}
 
 ![image](https://user-images.githubusercontent.com/13848158/212019287-8c7a538c-d544-4b48-8e2a-9d3d2f90adbf.png)
 
- 
 2. Group metrics by hyperparameters to analyze hyperparameters’ influence on run performance.
 
 ![image](https://user-images.githubusercontent.com/13848158/212019346-a94c9fde-b1d1-4bcc-94ec-475ba7cebe75.png)
