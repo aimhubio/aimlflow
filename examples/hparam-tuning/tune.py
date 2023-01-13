@@ -161,7 +161,7 @@ def train_cifar(config):
     print("Finished Training")
 
 
-def main(num_samples=10, max_num_epochs=10, cpu_cores=4, gpus_per_trial=0):
+def main(num_samples=10, max_num_epochs=10, cpu_cores=4, gpus_per_trial=1):
     config = {
         "l1": tune.choice([8, 16, 32, 64, 82, 120]),
         "l2": tune.choice([8, 16, 32, 64, 82, 120]),
@@ -196,4 +196,4 @@ def main(num_samples=10, max_num_epochs=10, cpu_cores=4, gpus_per_trial=0):
     tuner.fit()
 
 
-main(num_samples=20, max_num_epochs=15, gpus_per_trial=1)
+main(num_samples=20, max_num_epochs=15, gpus_per_trial=0)
