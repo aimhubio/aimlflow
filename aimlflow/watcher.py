@@ -63,7 +63,8 @@ class MLFlowWatcher:
 
         active_runs = self._client.search_runs(
             experiment_ids=experiment_ids,
-            run_view_type=mlflow.entities.ViewType.ACTIVE_ONLY
+            run_view_type=mlflow.entities.ViewType.ACTIVE_ONLY,
+            filter_string='attribute.status="RUNNING"'
         )
 
         return active_runs
