@@ -1,7 +1,7 @@
 import sys
 import os
 from shutil import rmtree
-from setuptools import find_packages, setup, Command, Extension
+from setuptools import find_packages, setup, Command
 
 version_file = 'aimlflow/VERSION'
 
@@ -15,12 +15,19 @@ here = os.path.abspath(os.path.dirname(__file__))
 # Package meta-data
 NAME = 'aim-mlflow'
 DESCRIPTION = 'Aim-MLflow integration'
-LONG_DESCRIPTION = DESCRIPTION
 VERSION = __version__
 REQUIRES_PYTHON = '>=3.7.0'
 
+readme_file = 'README.md'
+readme_text = open('/'.join((here, readme_file)), encoding="utf-8").read()
+LONG_DESCRIPTION = readme_text.strip()
+
 # Get packages
 packages = find_packages(exclude=('tests', 'examples'))
+version_files = ['../aimlflow/VERSION', ]
+
+package_data = {'aimlflow': version_files}
+
 
 REQUIRED = [
     'aim',
@@ -74,6 +81,7 @@ setup(
     python_requires=REQUIRES_PYTHON,
     install_requires=REQUIRED,
     packages=packages,
+    package_data=package_data,
     classifiers=[
         'License :: OSI Approved :: Apache Software License',
         'Programming Language :: Python',
