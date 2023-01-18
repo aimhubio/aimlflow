@@ -19,7 +19,7 @@ aim init
 To convert the runs into `Aim` format and watch for new logs simply use the following command
 
 ```
-aimlflow convert --mlflow-tracking-uri={mlflow_uri} --aim-repo={aim_repo_path} --watch
+aimlflow sync --mlflow-tracking-uri={mlflow_uri} --aim-repo={aim_repo_path}
 ```
 
 After which we just need to run the `Aim UI`

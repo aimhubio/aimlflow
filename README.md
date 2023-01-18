@@ -47,7 +47,7 @@ pip install aim-mlflow
 2. Run live time convertor to sync MLFlow logs with Aim:
 
 ```
-aimlflow convert --mlflow-tracking-uri={mlflow_uri} --aim-repo={aim_repo_path} --watch
+aimlflow sync --mlflow-tracking-uri={mlflow_uri} --aim-repo={aim_repo_path}
 ```
 
 3. Run the Aim UI:
