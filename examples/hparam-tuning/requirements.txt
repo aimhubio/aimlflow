@@ -1,0 +1,6 @@
+mlflow==2.1.1
+packaging==22.0
+pandas==1.5.2
+ray==2.2.0
+torch==1.13.1
+torchvision==0.14.1
