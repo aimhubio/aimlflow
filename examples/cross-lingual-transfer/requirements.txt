@@ -1,0 +1,5 @@
+torch==1.13.0
+transformers==4.26.0
+evaluate==0.4.0
+datasets==2.4.0
+mlflow==1.28.0
