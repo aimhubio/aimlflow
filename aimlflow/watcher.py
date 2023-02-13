@@ -104,6 +104,7 @@ class MLFlowWatcher:
             else:
                 aim_run = get_aim_run(self._repo,
                                       mlflow_run.info.run_id,
+                                      mlflow_run.info.run_name,
                                       mlflow_experiment.name,
                                       run_cache)
                 self._active_aim_runs_pool[mlflow_run_id] = aim_run

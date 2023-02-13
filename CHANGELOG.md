@@ -1,7 +1,7 @@
 # Changelog
 
 # Unreleased
-- Set mlflow experiment name as `aim.Run`'s experiment (mihran113)
+- Set mlflow experiment name as `aim.Run`'s experiment and parse the mlflow run name (mihran113)
 
 ## 0.1.1 
 - Fix MLFlow active runs' query (mihran113)
