@@ -1,3 +1,4 @@
+import fnmatch
 import click
 import mlflow
 import json
@@ -114,7 +115,10 @@ def collect_run_params(aim_run, mlflow_run):
     }
 
 
-def collect_artifacts(aim_run, mlflow_run, mlflow_client):
+def collect_artifacts(aim_run, mlflow_run, mlflow_client, excluded_artifacts):
+    if excluded_artifacts == '*':
+        return
+
     run_id = mlflow_run.info.run_id
 
     artifacts_cache_key = '_mlflow_artifacts_cache'
@@ -136,6 +140,10 @@ def collect_artifacts(aim_run, mlflow_run, mlflow_client):
                     continue
                 else:
                     artifacts_cache.append(file_info.path)
+
+                if fnmatch.fnmatch(file_info.path, excluded_artifacts):
+                    continue
+
                 downloaded_path = mlflow_client.download_artifacts(run_id, file_info.path, dst_path=temp_path)
                 if file_info.path.endswith(HTML_EXTENSIONS):
                     if not __html_warning_issued:
@@ -196,7 +204,7 @@ def collect_metrics(aim_run, mlflow_run, mlflow_client, timestamp=None):
             aim_run.track(m.value, step=m.step, name=m.key)
 
 
-def convert_existing_logs(repo_inst, tracking_uri, experiment=None, no_cache=False):
+def convert_existing_logs(repo_inst, tracking_uri, experiment=None, excluded_artifacts=None, no_cache=False):
     client = mlflow.tracking.client.MlflowClient(tracking_uri=tracking_uri)
 
     experiments = get_mlflow_experiments(client, experiment)
@@ -215,7 +223,7 @@ def convert_existing_logs(repo_inst, tracking_uri, experiment=None, no_cache=Fal
             collect_metrics(aim_run, run, client)
 
             # Collect artifacts
-            collect_artifacts(aim_run, run, client)
+            collect_artifacts(aim_run, run, client, excluded_artifacts)
 
     run_cache.refresh()
 
