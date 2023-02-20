@@ -118,8 +118,8 @@ def collect_run_params(aim_run, mlflow_run):
     }
 
 
-def collect_artifacts(aim_run, mlflow_run, mlflow_client, excluded_artifacts):
-    if excluded_artifacts == '*':
+def collect_artifacts(aim_run, mlflow_run, mlflow_client, exclude_artifacts):
+    if '*' in exclude_artifacts:
         return
 
     run_id = mlflow_run.info.run_id
@@ -144,8 +144,14 @@ def collect_artifacts(aim_run, mlflow_run, mlflow_client, excluded_artifacts):
                 else:
                     artifacts_cache.append(file_info.path)
 
-                if fnmatch.fnmatch(file_info.path, excluded_artifacts):
-                    continue
+                if exclude_artifacts:
+                    exclude = False
+                    for expr in exclude_artifacts:
+                        if fnmatch.fnmatch(file_info.path, expr):
+                            exclude = True
+                            break
+                    if exclude:
+                        continue
 
                 downloaded_path = mlflow_client.download_artifacts(run_id, file_info.path, dst_path=temp_path)
                 if file_info.path.endswith(HTML_EXTENSIONS):

@@ -28,7 +28,7 @@ class MLFlowWatcher:
                  repo: 'Repo',
                  tracking_uri: str,
                  experiment: str = None,
-                 excluded_artifacts: str = None,
+                 exclude_artifacts: str = None,
                  interval: Union[int, float] = WATCH_INTERVAL_DEFAULT,
                  ):
 
@@ -39,7 +39,7 @@ class MLFlowWatcher:
 
         self._client = MlflowClient(tracking_uri)
 
-        self._excluded_artifacts = excluded_artifacts
+        self._exclude_artifacts = exclude_artifacts
         self._experiment = experiment
         self._experiments = get_mlflow_experiments(self._client, self._experiment)
         self._repo = repo
@@ -84,7 +84,7 @@ class MLFlowWatcher:
         collect_metrics(aim_run, mlflow_run, self._client, timestamp=self._last_watch_time)
 
         # Collect artifacts
-        collect_artifacts(aim_run, mlflow_run, self._client, self._excluded_artifacts)
+        collect_artifacts(aim_run, mlflow_run, self._client, self._exclude_artifacts)
 
     def _process_runs(self):
         watch_started_time = time.time()
