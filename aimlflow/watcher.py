@@ -37,7 +37,8 @@ class MLFlowWatcher:
         self._watch_interval = interval
 
         self._client = MlflowClient(tracking_uri)
-        self._experiments = get_mlflow_experiments(self._client, experiment)
+        self._experiment = experiment
+        self._experiments = get_mlflow_experiments(self._client, self._experiment)
         self._repo = repo
 
         self._th_collector = Thread(target=self._watch, daemon=True)
@@ -57,6 +58,9 @@ class MLFlowWatcher:
 
         self._shutdown = True
         self._th_collector.join()
+
+    def _search_experiment(self, experiment_id):
+        return next((exp for exp in self._experiments if exp.experiment_id == experiment_id), None)
 
     def _get_current_active_mlflow_runs(self):
         experiment_ids = [ex.experiment_id for ex in self._experiments]
@@ -82,6 +86,9 @@ class MLFlowWatcher:
     def _process_runs(self):
         watch_started_time = time.time()
 
+        # refresh experiments list
+        self._experiments = get_mlflow_experiments(self._client, self._experiment)
+
         # process active runs
         active_mlflow_runs = self._get_current_active_mlflow_runs()
 
@@ -91,13 +98,14 @@ class MLFlowWatcher:
         for mlflow_run in active_mlflow_runs:
             mlflow_run_id = mlflow_run.info.run_id
             active_mlflow_run_ids.add(mlflow_run_id)
-
+            mlflow_experiment = self._search_experiment(mlflow_run.info.experiment_id)
             if self._active_aim_runs_pool.get(mlflow_run_id):
                 aim_run = self._active_aim_runs_pool[mlflow_run_id]
             else:
                 aim_run = get_aim_run(self._repo,
                                       mlflow_run.info.run_id,
-                                      mlflow_run.info.experiment_id,
+                                      mlflow_run.info.run_name,
+                                      mlflow_experiment.name,
                                       run_cache)
                 self._active_aim_runs_pool[mlflow_run_id] = aim_run
 
