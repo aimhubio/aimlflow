@@ -1,5 +1,8 @@
 # Changelog
 
+## Unreleased
+- Try to parse "string-ified" params values (sirykd)
+
 ## 0.1.1 
 - Fix MLFlow active runs' query (mihran113)
 - Add `PyPI` long description (mihran113)
