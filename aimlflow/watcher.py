@@ -87,7 +87,7 @@ class MLFlowWatcher:
         watch_started_time = time.time()
 
         # refresh experiments list
-        self._experiments = get_mlflow_experiments(self, self._experiment)
+        self._experiments = get_mlflow_experiments(self._client, self._experiment)
 
         # process active runs
         active_mlflow_runs = self._get_current_active_mlflow_runs()
