@@ -1,10 +1,12 @@
 import fnmatch
 import click
+import collections
 import mlflow
 import json
 import time
 import os.path
 
+from ast import literal_eval
 from tempfile import TemporaryDirectory
 from tqdm import tqdm
 
@@ -82,24 +84,24 @@ def get_mlflow_experiments(client, experiment):
     return experiments
 
 
-def get_aim_run(repo_inst, run_id, experiment_id, run_cache):
+def get_aim_run(repo_inst, run_id, run_name, experiment_name, run_cache):
     if run_cache.get(run_id):
         aim_run = Run(
             run_hash=run_cache[run_id],
             repo=repo_inst,
             system_tracking_interval=None,
             capture_terminal_logs=False,
-            experiment=experiment_id,
+            experiment=experiment_name,
         )
     else:
         aim_run = Run(
             repo=repo_inst,
             system_tracking_interval=None,
             capture_terminal_logs=False,
-            experiment=experiment_id,
+            experiment=experiment_name,
         )
         run_cache[run_id] = aim_run.hash
-
+    aim_run.name = run_name
     return aim_run
 
 
@@ -109,7 +111,8 @@ def collect_run_params(aim_run, mlflow_run):
     aim_run.description = mlflow_run.data.tags.get("mlflow.note.content")
 
     # Collect params & tags
-    aim_run['params'] = mlflow_run.data.params
+    # MLflow provides "string-ified" params values and we try to revert that
+    aim_run['params'] = _map_nested_dicts(_try_parse_str, mlflow_run.data.params)
     aim_run['tags'] = {
         k: v for k, v in mlflow_run.data.tags.items() if not k.startswith('mlflow')
     }
@@ -213,9 +216,8 @@ def convert_existing_logs(repo_inst, tracking_uri, experiment=None, excluded_art
         runs = client.search_runs(ex.experiment_id)
 
         for run in tqdm(runs, desc=f'Parsing mlflow runs for experiment `{ex.name}`', total=len(runs)):
-            run_id = run.info.run_id
             # get corresponding `aim.Run` object for mlflow run
-            aim_run = get_aim_run(repo_inst, run_id, ex.experiment_id, run_cache)
+            aim_run = get_aim_run(repo_inst, run.info.run_id, run.info.run_name, ex.name, run_cache)
             # Collect params and tags
             collect_run_params(aim_run, run)
 
@@ -234,3 +236,18 @@ def _wait_forever(watcher):
             time.sleep(24 * 60 * 60)  # sleep for a day
     except KeyboardInterrupt:
         watcher.stop()
+
+
+def _map_nested_dicts(fun, tree):
+    if isinstance(tree, collections.Mapping):
+        return {k: _map_nested_dicts(fun, subtree) for k, subtree in tree.items()}
+    else:
+        return fun(tree)
+
+
+def _try_parse_str(s):
+    assert isinstance(s, str), f'Expected a string, got {s} of type {type(s)}'
+    try:
+        return literal_eval(s.strip())
+    except:  # noqa: E722
+        return s
