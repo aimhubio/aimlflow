@@ -107,7 +107,7 @@ def get_aim_run(repo_inst, run_id, run_name, experiment_name, run_cache):
 
 def collect_run_params(aim_run, mlflow_run):
     aim_run['mlflow_run_id'] = mlflow_run.info.run_id
-    aim_run['mlflow_run_name'] = mlflow_run.data.tags.get("mlflow.runName")
+    aim_run['mlflow_experiment_id'] = mlflow_run.info.experiment_id
     aim_run.description = mlflow_run.data.tags.get("mlflow.note.content")
 
     # Collect params & tags
