@@ -1,9 +1,11 @@
 import click
+import collections
 import mlflow
 import json
 import time
 import os.path
 
+from ast import literal_eval
 from tempfile import TemporaryDirectory
 from tqdm import tqdm
 
@@ -108,7 +110,8 @@ def collect_run_params(aim_run, mlflow_run):
     aim_run.description = mlflow_run.data.tags.get("mlflow.note.content")
 
     # Collect params & tags
-    aim_run['params'] = mlflow_run.data.params
+    # MLflow provides "string-ified" params values and we try to revert that
+    aim_run['params'] = _map_nested_dicts(_try_parse_str, mlflow_run.data.params)
     aim_run['tags'] = {
         k: v for k, v in mlflow_run.data.tags.items() if not k.startswith('mlflow')
     }
@@ -225,3 +228,18 @@ def _wait_forever(watcher):
             time.sleep(24 * 60 * 60)  # sleep for a day
     except KeyboardInterrupt:
         watcher.stop()
+
+
+def _map_nested_dicts(fun, tree):
+    if isinstance(tree, collections.Mapping):
+        return {k: _map_nested_dicts(fun, subtree) for k, subtree in tree.items()}
+    else:
+        return fun(tree)
+
+
+def _try_parse_str(s):
+    assert isinstance(s, str), f'Expected a string, got {s} of type {type(s)}'
+    try:
+        return literal_eval(s.strip())
+    except:  # noqa: E722
+        return s

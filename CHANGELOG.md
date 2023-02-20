@@ -1,7 +1,8 @@
 # Changelog
 
-# Unreleased
+## Unreleased
 - Set mlflow experiment name as `aim.Run`'s experiment and parse the mlflow run name (mihran113)
+- Try to parse "string-ified" params values (sirykd)
 
 ## 0.1.1 
 - Fix MLFlow active runs' query (mihran113)
