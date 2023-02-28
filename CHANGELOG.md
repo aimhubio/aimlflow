@@ -1,6 +1,7 @@
 # Changelog
 
 ## Unreleased
+- Add "--exclude-artifacts" option to sync command (mihran113)
 - Set mlflow experiment name as `aim.Run`'s experiment and parse the mlflow run name (mihran113)
 - Try to parse "string-ified" params values (sirykd)
 - Remove 'mlflow_run_name' and add 'mlflow_experiment_id' fields (sirykd)
