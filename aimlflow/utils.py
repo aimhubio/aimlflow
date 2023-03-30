@@ -245,7 +245,7 @@ def _wait_forever(watcher):
 
 
 def _map_nested_dicts(fun, tree):
-    if isinstance(tree, collections.Mapping):
+    if isinstance(tree, collections.abc.Mapping):
         return {k: _map_nested_dicts(fun, subtree) for k, subtree in tree.items()}
     else:
         return fun(tree)
