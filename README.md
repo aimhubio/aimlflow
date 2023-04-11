@@ -36,8 +36,8 @@
 </div>
 
 <h3 align="center">
-  <a href="#-about"><b>About</b></a> &bull;
-  <a href="#-demos"><b>Getting Started</b></a> &bull;
+  <a href="#ℹ%EF%B8%8F-about"><b>About</b></a> &bull;
+  <a href="#-getting-started"><b>Getting Started</b></a> &bull;
   <a href="#-why-use-aimlflow"><b>Why use aimlflow?</b></a> &bull;
   <a href="#-use-cases"><b>Use Cases</b></a> &bull;
   <a href="https://aimstack.io/blog"><b> Blog</b></a>
@@ -110,7 +110,7 @@ aim up --repo={aim_repo_path}
 
 ![image](https://user-images.githubusercontent.com/13848158/212019543-a6f70fba-2418-429b-911a-14bc250db33d.png)
 
-## 🎬  Use Cases
+## 🎬 Use Cases
 
 🎇 Read the article: [Exploring MLflow experiments with a powerful UI](https://aimstack.io/blog/tutorials/exploring-mlflow-experiments-with-a-powerful-ui)  
 
