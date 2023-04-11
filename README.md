@@ -1,4 +1,19 @@
 <div align="center">
+  <table>
+    <tbody>
+      <tr>
+        Powered by Aim 
+        <td>
+          <a href="https://github.com/aimhubio/aim">Drop a star to support Aim ⭐</td>
+        <td>
+          <a href="https://community.aimstack.io/">Join Aim discord community</a>
+          <img width="20px" src="https://user-images.githubusercontent.com/13848158/226759622-063b725d-8b3e-4c75-80c7-11fb04b7adf5.png"
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<div align="center">
   <h1>aimlflow</h1>
   <h3>Aim-powered supercharged UI for MLFlow logs</h3>
   Run beautiful UI on top of your MLflow logs and get powerful run comparison features.
@@ -20,7 +35,16 @@
   <img src="https://user-images.githubusercontent.com/13848158/212019426-c60f2037-0faa-44f2-9620-88ab82c19f0a.png" />
 </div>
 
-## About
+<h3 align="center">
+  <a href="#ℹ%EF%B8%8F-about"><b>About</b></a> &bull;
+  <a href="#-getting-started"><b>Getting Started</b></a> &bull;
+  <a href="#-why-use-aimlflow"><b>Why use aimlflow?</b></a> &bull;
+  <a href="#-use-cases"><b>Use Cases</b></a> &bull;
+  <a href="https://aimstack.io/blog"><b> Blog</b></a>
+ 
+</h3> 
+
+## ℹ️ About
 
 aimlflow helps to explore various types of metadata tracked during the training with MLFLow, including:
 
@@ -34,7 +58,7 @@ More about Aim: https://github.com/aimhubio/aim
 
 More about MLFLow: https://github.com/mlflow/mlflow
 
-## Getting Started
+## 🏁 Getting Started
 
 Follow the steps below to set up aimlflow.
 
@@ -56,7 +80,7 @@ aimlflow sync --mlflow-tracking-uri={mlflow_uri} --aim-repo={aim_repo_path}
 aim up --repo={aim_repo_path}
 ```
 
-## Why use aimlflow?
+## 🔦 Why use aimlflow?
 
 1. Powerful pythonic search to select the runs you want to analyze.
 
@@ -85,3 +109,23 @@ aim up --repo={aim_repo_path}
 7. High dimensional data visualization via parallel coordinate plot.
 
 ![image](https://user-images.githubusercontent.com/13848158/212019543-a6f70fba-2418-429b-911a-14bc250db33d.png)
+
+## 🎬 Use Cases
+
+🎇 Read the article: [Exploring MLflow experiments with a powerful UI](https://aimstack.io/blog/tutorials/exploring-mlflow-experiments-with-a-powerful-ui)  
+
+![image](https://aimstack.io/_next/static/chunks/images/max/1400/1*xXGWEV5bJFEOwpjtDZOoHw_3840_75.webp)
+
+🔍 Read the article: [How to integrate aimlflow with your remote MLflow](https://aimstack.io/blog/tutorials/how-to-integrate-aimlflow-with-your-remote-mlflow)
+
+![image](https://aimstack.io/_next/static/chunks/images/max/1400/1*TjHqr4lK-aFPJPPh5rGAqQ_3840_75.webp)
+
+📊 Read the article: [Aim and MLflow — Choosing Experiment Tracker for Zero-Shot Cross-Lingual Transfer](https://aimstack.io/blog/tutorials/aim-and-mlflow-%E2%80%94-choosing-experiment-tracker-for-zero-shot-cross-lingual-transfer) 
+
+![image](https://aimstack.io/_next/static/chunks/images/v2/resize:fit:1400/format:webp/1*v64PbdBn6kBvsH3t5bkv8w_3840_75.webp)
+
+## More questions?
+
+1. [Read the docs](https://aimstack.readthedocs.io/en/latest/)
+2. [Open a feature request or report a bug](https://github.com/aimhubio/aim/issues)
+3. [Join Discord community server](https://community.aimstack.io/)
