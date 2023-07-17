@@ -30,7 +30,7 @@ package_data = {'aimlflow': version_files}
 
 
 REQUIRED = [
-    'aim',
+    'aim < 4.0.0',
     'mlflow',
     'tqdm',
 ]
